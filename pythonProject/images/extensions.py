@@ -24,7 +24,7 @@ def handle_values(message):
 @bot.message_handler(content_types=['text'])
 def convert(message):
     try:
-        values = message.text.split(' ')
+        values = message.text.lower().split(' ')
         if len(values) != 3:
             raise APIException('Неправильно введены параметры, введите ровно 3 параметра')
 
