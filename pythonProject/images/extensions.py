@@ -1,7 +1,7 @@
 '''импортируется api телеграмм бота, функции отлова и токен со словарём валют'''
 
 import telebot
-from utils import ConvertExeption, CryptoConvertor
+from utils import APIException, CryptoConvertor
 from config import TOKEN, keys
 
 bot = telebot.TeleBot(TOKEN)
@@ -26,13 +26,13 @@ def convert(message):
     try:
         values = message.text.split(' ')
         if len(values) != 3:
-            raise ConvertExeption('Неправильно введены параметры, введите ровно 3 параметра')
+            raise APIException('Неправильно введены параметры, введите ровно 3 параметра')
 
-        first, second, amount = values[0], values[1], values[2]
-        result = CryptoConvertor.convert(first, second, amount)
-        bot.send_message(message.chat.id, f"{amount} {first} = {result} {second}")
+        base, quote, amount = values[0], values[1], values[2]
+        result = CryptoConvertor.convert(base, quote, amount)
+        bot.send_message(message.chat.id, f"{amount} {base} = {result} {quote}")
 #при соблюдении условий бот будет выводить результат своей работы
-    except ConvertExeption as e:
+    except APIException as e:
         bot.send_message(message.chat.id, f"Ошибка пользователя: {e}")
     except Exception as e:
         bot.send_message(message.chat.id, f"Произошла ошибка: {e}")

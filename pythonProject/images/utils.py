@@ -1,30 +1,29 @@
 import requests
 import json
-class ConvertExeption(Exception):
+class APIException(Exception):
     pass
 
 class CryptoConvertor:
     @staticmethod
-    def convert(self, first, second, amount):
+    def convert(self, base, quote, amount):
 
-        if first == second:
-            raise ConvertExeption(f'Нельзя перевести две одинаковые валюты {second}')
-
-        try:
-            first_base = keys[first]
-        except KeyError:
-            raise ConvertExeption(f'Не удалось обработать валюту {first}')
+        if base == quote:
+            raise APIException(f'Нельзя перевести две одинаковые валюты {quote}')
 
         try:
-            second_base = keys[second]
+            first_base = keys[base]
         except KeyError:
-            raise ConvertExeption(f'Не удалось обработать валюту {second}')
+            raise APIException(f'Не удалось обработать валюту {base}')
+
+        try:
+            second_base = keys[quote]
+        except KeyError:
+            raise APIException(f'Не удалось обработать валюту {quote}')
 
         try:
             amount = float(amount)
         except ValueError:
-            raise ConvertExeption(f'Не удалось обработать количество {amount}')
+            raise APIException(f'Не удалось обработать количество {amount}')
 
-        r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={keys[first]}&tsyms={keys[second]}')
-        total = json.loads(r.content)[keys[second]]
-        #ййоу)
+        r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={keys[base]}&tsyms={keys[quote]}')
+        total = json.loads(r.content)[keys[quote]]
