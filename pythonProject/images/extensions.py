@@ -28,7 +28,7 @@ def convert(message):
         if len(values) != 3:
             raise APIException('Неправильно введены параметры, введите ровно 3 параметра')
 
-        base, quote, amount = values[0], values[1], values[2]
+        base, quote, amount = values
         result = CryptoConvertor.convert(base, quote, amount)
         bot.send_message(message.chat.id, f"{amount} {base} = {result} {quote}")
 #при соблюдении условий бот будет выводить результат своей работы
