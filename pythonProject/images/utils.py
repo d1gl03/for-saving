@@ -27,3 +27,4 @@ class CryptoConvertor:
 
         r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={keys[first]}&tsyms={keys[second]}')
         total = json.loads(r.content)[keys[second]]
+        #ййоу)
